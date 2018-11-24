@@ -766,7 +766,9 @@ function get_UTCDate() {
 
 function get_data(place) {
 	var place_letter = place.charAt(0).toLowerCase();
-	fetch("data/" + place_letter + ".latest").then(function(response) {
+	// var url = "https://outside.boff.in/data/" + place_letter + ".latest";
+	var url = "data/" + place_letter + ".latest";
+	fetch(url, {cache: "no-cache"}).then(function(response) {
 		return response.text();
 	}).then(function(text) {
 		main(place, text);
