@@ -115,21 +115,6 @@ function add_to_dates(obj, adate, astring) {
 	return obj;
 }
 
-function day_length(sun) {
-	try {
-		var date = new Date(null);
-		date.setSeconds((sun.sunset - sun.sunrise)/1000);
-		date = date.toISOString().substr(11, 8).split(":");
-		for (var d=0;d<3;d++) {
-			date[d] = parseInt(date[d]);
-			if ( isNaN(date[d]) ) { throw ""; }
-		}
-		return "The day is " + date[0] + "h " + date[1] + "m " + date[2] + "s long.";
-	}
-	catch(err) {
-		return "";
-	}
-}
 function astronomy(now, sun, moon, place) {
 	var string = [do_solar(now, sun), do_lunar(now, moon), day_length(sun)];
 	document.querySelector("#" + place + " .conditions span:nth-child(8)").innerHTML = "<p>" + string.join(" ").trim() + "</p>";
@@ -366,6 +351,22 @@ function csv_to_array( strData ){
 	return( arrData );
 }
 
+function day_length(sun) {
+	try {
+		var date = new Date(null);
+		date.setSeconds((sun.sunset - sun.sunrise)/1000);
+		date = date.toISOString().substr(11, 8).split(":");
+		for (var d=0;d<3;d++) {
+			date[d] = parseInt(date[d]);
+			if ( isNaN(date[d]) ) { throw ""; }
+		}
+		return "The day is " + date[0] + "h " + date[1] + "m " + date[2] + "s long.";
+	}
+	catch(err) {
+		return "";
+	}
+}
+
 function doBackgroundColour() {
 	var gradient_size = BACKGROUND_COLOURS.length;
 	var content_width = document.getElementById("content").offsetWidth;
@@ -446,6 +447,19 @@ function doSpecialDays(obj, YYYY){
 	add_to_dates(obj, get_Date(date[3].toUTCString(), false, 2), "Autumnal equinox");
 	add_to_dates(obj, get_Date(date[4].toUTCString(), false, 2), "Winter solstice");
 	return obj;
+}
+
+function do_last_precipitate(place, latest, records) {
+	var snowrain = [["snow", 9], ["rain", 8]];
+	var precipitate = [];
+	for (var sn in snowrain) {
+		if ( records[snowrain[sn][1]] != latest[0] ) {
+			precipitate.push( snowrain[sn][0] + "ed " + new Date(records[snowrain[sn][1]] * 1000).toRelativeTime({"smartDays": true}) );
+		}
+	}
+	if ( precipitate.length > 0 ) {
+		document.querySelector("#" + place + " .conditions span:nth-child(5)").innerHTML = "<p>It last " + precipitate.join(" and ") + ".</p>";
+	}
 }
 
 function do_lunar(now, lunar) {
@@ -883,9 +897,7 @@ function main(place, text){
 			}
 		}
 	}
-	var snow = new Date(records[9] * 1000);
-	var rain = new Date(records[8] * 1000);
-	document.querySelector("#" + place + " .conditions span:nth-child(5)").innerHTML = "<p>It last snowed " + snow.toRelativeTime({"smartDays": true}) + " and it last rained " + rain.toRelativeTime({"smartDays": true}) + ".</p>";
+	do_last_precipitate(place, latest, records);
 	skycons.play();
 	var now = get_UTCDate();
 	var sun = SunCalc.getTimes(now, records[2], records[3]);
