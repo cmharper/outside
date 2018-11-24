@@ -115,7 +115,10 @@ function add_to_dates(obj, adate, astring) {
 	return obj;
 }
 
-function astronomy(now, sun, moon, place) {
+function astronomy(longitude, latitude, place) {
+	var now = get_UTCDate();
+	var sun = SunCalc.getTimes(now, longitude, latitude);
+	var moon = [SunCalc.getMoonIllumination(now), SunCalc.getMoonTimes(now, longitude, latitude)];
 	var string = [do_solar(now, sun), do_lunar(now, moon), day_length(sun)];
 	document.querySelector("#" + place + " .conditions span:nth-child(8)").innerHTML = "<p>" + string.join(" ").trim() + "</p>";
 }
@@ -834,6 +837,7 @@ function main(place, text){
 		window.clearTimeout(LAST_UPDATED[null]);
 	}
 
+	if ( LOCATIONS.indexOf(place) == 0 ) { compile_dates(); }
 	// reset the page
 	document.querySelector("#" + place + " .conditions").innerHTML = "<span class=\"summary\"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>";
 	// get the csv into an array
@@ -902,16 +906,13 @@ function main(place, text){
 		}
 	}
 	do_last_precipitate(place, latest, records);
-	skycons.play();
-	var now = get_UTCDate();
-	var sun = SunCalc.getTimes(now, records[2], records[3]);
-	var moon = [SunCalc.getMoonIllumination(now), SunCalc.getMoonTimes(now, 51.43, -2.76)];
-	astronomy(now, sun, moon, place);
+	astronomy(records[2], records[3], place);
 	doBackgroundColour();
-	if ( LOCATIONS.indexOf(place) == 0 ) { compile_dates(); }
+	skycons.play();
 	LAST_UPDATED[place] = window.setInterval(function() {
 		if ( LOCATIONS.indexOf(place) == 0 ) { compile_dates(); }
-		astronomy(now, sun, moon, place);
+		astronomy(records[2], records[3], place);
+		do_last_precipitate(place, latest, records);
 		last_updated(latest[0], place);
 	}, 15000);
 }
@@ -928,7 +929,7 @@ function moon_phase(phase) {
 }
 
 function page_setup() {
-	document.getElementById("content") = "";
+	document.getElementById("content").innerHTML = "";
 	document.getElementById("content").width = 400 * LOCATIONS.length;
 	document.title = "Weather for " + joinSentence(LOCATIONS);
 	for (var place in LOCATIONS) {
