@@ -525,7 +525,7 @@ function do_solar(now, solar) {
 		if ( now < solar.goldenHour ) {
 			string.push( "The golden hour starts at " + get_time(solar.goldenHour) );
 			if ( (solar.goldenHour - now) <= 3600000 ) {
-				string.push( "in " + solar.goldenHour.toRelativeTime() );
+				string.push( "(" + solar.goldenHour.toRelativeTime() + ")" );
 			}
 		}
 		if ( string.length > 1 ) { string = close_sentence(string); }
@@ -767,7 +767,7 @@ function get_UTCDate() {
 function get_data(place) {
 	var place_letter = place.charAt(0).toLowerCase();
 	// var url = "https://outside.boff.in/data/" + place_letter + ".latest";
-	var url = "data/" + place_letter + ".latest?" + new Date().getTime();
+	var url = "data/" + place_letter + ".latest";
 	fetch(url, {cache: "no-cache"}).then(function(response) {
 		return response.text();
 	}).then(function(text) {
@@ -1040,7 +1040,7 @@ function update_page() {
 		get_data(place);
 	}
 	window.setTimeout(function() {
-		update_page();
+		location.reload();
 	}, 300000);
 }
 
