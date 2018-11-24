@@ -805,7 +805,7 @@ function is_at(what, when, string, now) {
 		string.push( what );
 		string.push( get_time(when) );
 		if ( (when - now) <= 3600000 ) {
-			string.push( "in " + when.toRelativeTime() );
+			string.push( "(" + when.toRelativeTime() + ")");
 		}
 	}
 	return close_sentence(string);
