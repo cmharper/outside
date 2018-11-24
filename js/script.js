@@ -525,7 +525,7 @@ function do_solar(now, solar) {
 		if ( now < solar.goldenHour ) {
 			string.push( "The golden hour starts at " + get_time(solar.goldenHour) );
 			if ( (solar.goldenHour - now) <= 3600000 ) {
-				string.push( "in " + solar.sunrise.toRelativeTime() );
+				string.push( "in " + solar.goldenHour.toRelativeTime() );
 			}
 		}
 		if ( string.length > 1 ) { string = close_sentence(string); }
