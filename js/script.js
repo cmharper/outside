@@ -1039,7 +1039,7 @@ function update_page() {
 	}
 	window.setTimeout(function() {
 		update_page();
-	}, 900000);
+	}, 300000);
 }
 
 function when_is_easter(Y) {
