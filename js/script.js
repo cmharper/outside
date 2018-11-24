@@ -1044,8 +1044,7 @@ function update_page() {
 		get_data(place);
 	}
 	window.setTimeout(function() {
-		// location.reload();
-		update_page();
+		location.reload();
 	}, 300000);
 }
 
