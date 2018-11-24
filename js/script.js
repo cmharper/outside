@@ -533,7 +533,7 @@ function do_solar(now, solar) {
 			string = is_at("The sun will set at", solar.sunset, string, now);
 		}
 		if ( now < solar.dusk ) {
-			string.push( "Dusk ends at " + get_time(solar.dusk) + "." );
+			string.push( "Dusk is at " + get_time(solar.dusk) + "." );
 		}
 	}
 	return string.join(" ").trim();
