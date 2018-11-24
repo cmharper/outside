@@ -816,7 +816,7 @@ function joinSentence(a) {
 }
 
 function last_updated(when, place) {
-	document.getElementById(place + "_updated").innerHTML = "<p>The latest weather in " + toTitleCase(place) + " was recorded " + getRelativeTime(when) + ".</p>";
+	document.getElementById(place + "_updated").innerHTML = "<p>The latest weather from " + toTitleCase(place) + " was recorded " + getRelativeTime(when) + ".</p>";
 }
 
 function last_x_days(days, data) {
