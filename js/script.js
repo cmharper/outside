@@ -878,7 +878,7 @@ function main(place, text){
 			else if ( part_name == "battery" ) {
 				if ( latest[idx] != "" ) {
 					if ( latest[idx] < 30 ) {
-						document.querySelector("#footer span:nth-child(2)").innerHTML = "<p>&#128267; The battery is getting low - " + latest[idx] + "% remaining &#128267;</p>";
+						document.querySelector("#footer span:nth-child(2)").innerHTML = "<p>&#128267; The battery in " + place + " is getting low - " + latest[idx] + "% remaining &#128267;</p>";
 					}
 				}
 			}
