@@ -360,7 +360,9 @@ function day_length(sun) {
 			date[d] = parseInt(date[d]);
 			if ( isNaN(date[d]) ) { throw ""; }
 		}
-		return "The day is " + date[0] + "h " + date[1] + "m " + date[2] + "s long.";
+		var is = "is";
+		if (new Date.getTime() >= sun.sunset) { is = "was"; }
+		return "The day " + is + " " + date[0] + "h " + date[1] + "m " + date[2] + "s long.";
 	}
 	catch(err) {
 		return "";
@@ -814,7 +816,7 @@ function joinSentence(a) {
 }
 
 function last_updated(when, place) {
-	document.getElementById(place + "_updated").innerHTML = "<p>Last updated in " + toTitleCase(place) + " " + getRelativeTime(when) + ".</p>";
+	document.getElementById(place + "_updated").innerHTML = "<p>The latest weather in " + toTitleCase(place) + " was recorded " + getRelativeTime(when) + ".</p>";
 }
 
 function last_x_days(days, data) {
