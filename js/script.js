@@ -928,6 +928,7 @@ function moon_phase(phase) {
 }
 
 function page_setup() {
+	document.getElementById("content") = "";
 	document.getElementById("content").width = 400 * LOCATIONS.length;
 	document.title = "Weather for " + joinSentence(LOCATIONS);
 	for (var place in LOCATIONS) {
