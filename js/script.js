@@ -911,8 +911,8 @@ function main(place, text){
 	skycons.play();
 	LAST_UPDATED[place] = window.setInterval(function() {
 		if ( LOCATIONS.indexOf(place) == 0 ) { compile_dates(); }
-		astronomy(records[2], records[3], place);
 		do_last_precipitate(place, latest, records);
+		astronomy(records[2], records[3], place);
 		last_updated(latest[0], place);
 	}, 15000);
 }
@@ -1044,7 +1044,8 @@ function update_page() {
 		get_data(place);
 	}
 	window.setTimeout(function() {
-		location.reload();
+		// location.reload();
+		update_page();
 	}, 300000);
 }
 
