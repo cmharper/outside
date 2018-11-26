@@ -929,11 +929,11 @@ function moon_phase(phase) {
 }
 
 function page_setup() {
-	var width = document.documentElement.style.getPropertyValue('--width');
+	var width = parseInt(window.getComputedStyle(document.body).getPropertyValue("--width"));
 	document.getElementById("content").innerHTML = "";
 	document.getElementById("content").width = width * LOCATIONS.length;
 	document.title = "Weather for " + joinSentence(LOCATIONS);
-	html = document.createElement("section");
+	var html = document.createElement("section");
 	html.setAttribute("id", "header");
 	document.getElementById("content").appendChild(html);
 
@@ -943,7 +943,7 @@ function page_setup() {
 	document.getElementById("header").appendChild(html);
 	for (var place in LOCATIONS) {
 		var place_name = LOCATIONS[place];
-		var html = document.createElement("section");
+		html = document.createElement("section");
 		html.setAttribute("id", place_name);
 		html.setAttribute("class", "background");
 		html.setAttribute("style", "grid-row: 2 / span 1");
