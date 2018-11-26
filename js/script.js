@@ -10,8 +10,8 @@ const ICONS = [ "clear-day", "clear-night", "rain", "snow", "sleet", "wind", "fo
 const AVAILABLE = ["time", "temperature", "humidity", "battery", "summary", "icon", "temp", "pressure", "wind", "gust", "direction", "cloud_cover", "uv", "visibility", "ozone"];
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-// const LOCATIONS = ["Nailsea", "Chitterne"];
-const LOCATIONS = ["Nailsea"];
+const LOCATIONS = ["Nailsea", "Chitterne"];
+// const LOCATIONS = ["Nailsea"];
 var LAST_UPDATED = [];
 for (var l in LOCATIONS) { LAST_UPDATED[LOCATIONS[l]] = null; }
 var ss, chroma, SunCalc, Skycons, Feels;
