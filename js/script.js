@@ -364,7 +364,7 @@ function day_length(sun) {
 			if ( isNaN(date[d]) ) { throw ""; }
 		}
 		var is = "is";
-		if (new Date.getTime() >= sun.sunset) { is = "was"; }
+		if (new Date().getTime() >= sun.sunset) { is = "was"; }
 		return "The day " + is + " " + date[0] + "h " + date[1] + "m " + date[2] + "s long.";
 	}
 	catch(err) {
