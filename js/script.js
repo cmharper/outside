@@ -301,13 +301,13 @@ function compile_dates() {
 	dates = dates[get_Date(new Date().toUTCString(), false)];
 	if ( typeof dates != "undefined" ) {
 		dates = "<p>It is " + dates.join(" .").trim() + ".</p>";
-		document.querySelector("#footer").style.display = "block";
+		document.querySelector("#header").style.display = "block";
 	}
 	else {
 		dates = "";
-		document.querySelector("#footer").style.display = "none";
+		document.querySelector("#header").style.display = "none";
 	}
-	document.querySelector("#footer span:nth-child(1)").innerHTML = dates;
+	document.querySelector("#header span:nth-child(1)").innerHTML = dates;
 }
 
 function convertUV(num) {
@@ -886,7 +886,7 @@ function main(place, text){
 			else if ( part_name == "battery" ) {
 				if ( latest[idx] != "" ) {
 					if ( latest[idx] < 30 ) {
-						document.querySelector("#footer span:nth-child(2)").innerHTML = "<p>&#128267; The battery in " + place + " is getting low - " + latest[idx] + "% remaining &#128267;</p>";
+						document.querySelector("#header span:nth-child(2)").innerHTML = "<p>&#128267; The battery in " + place + " is getting low - " + latest[idx] + "% remaining &#128267;</p>";
 					}
 				}
 			}
@@ -929,15 +929,24 @@ function moon_phase(phase) {
 }
 
 function page_setup() {
+	var width = document.documentElement.style.getPropertyValue('--width');
 	document.getElementById("content").innerHTML = "";
-	document.getElementById("content").width = 400 * LOCATIONS.length;
+	document.getElementById("content").width = width * LOCATIONS.length;
 	document.title = "Weather for " + joinSentence(LOCATIONS);
+	html = document.createElement("section");
+	html.setAttribute("id", "header");
+	document.getElementById("content").appendChild(html);
+
+	html = document.createElement("span");
+	document.getElementById("header").appendChild(html);
+	html = document.createElement("span");
+	document.getElementById("header").appendChild(html);
 	for (var place in LOCATIONS) {
 		var place_name = LOCATIONS[place];
 		var html = document.createElement("section");
 		html.setAttribute("id", place_name);
 		html.setAttribute("class", "background");
-		html.setAttribute("style", "grid-row: 1 / span 1");
+		html.setAttribute("style", "grid-row: 2 / span 1");
 		document.getElementById("content").appendChild(html);
 
 		html = document.createElement("canvas");
@@ -956,17 +965,9 @@ function page_setup() {
 		html = document.createElement("section");
 		html.setAttribute("id", place_name + "_updated");
 		html.setAttribute("class", "updated");
-		html.setAttribute("style", "grid-row: 2 / span 1");
+		html.setAttribute("style", "grid-row: 3 / span 1");
 		document.getElementById("content").appendChild(html);
 	}
-	html = document.createElement("section");
-	html.setAttribute("id", "footer");
-	document.getElementById("content").appendChild(html);
-
-	html = document.createElement("span");
-	document.getElementById("footer").appendChild(html);
-	html = document.createElement("span");
-	document.getElementById("footer").appendChild(html);
 	update_page();
 }
 
