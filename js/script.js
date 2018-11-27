@@ -769,12 +769,14 @@ function get_UTCDate() {
 
 function get_data(place) {
 	var place_letter = place.charAt(0).toLowerCase();
-	// var url = "https://outside.boff.in/data/" + place_letter + ".latest";
 	var url = "data/" + place_letter + ".latest";
+	var content = window.getComputedStyle(document.getElementById("content")).getPropertyValue("display");
+	document.getElementById("content").style.display = "none";
 	fetch(url, {cache: "no-cache"}).then(function(response) {
 		return response.text();
 	}).then(function(text) {
 		main(place, text);
+		document.getElementById("content").style.display = content;
 	});
 }
 
