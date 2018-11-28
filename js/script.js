@@ -644,7 +644,8 @@ function getPressures(data, current) {
 	var string = [];
 	var end = (get_UTCDate() / 1000);
 	var start = end - (3600 * 12);
-	var pressure_points = get_element(data, 7, start, end, true);
+	var pressure_points = get_element(data, 7, start, end, false);
+	pressure_points = pressure_points.map(function(i,idx){ return [idx, i]});
 	var direction = ss.linearRegression(pressure_points)["m"];
 	var expect = "";
 	[expect, direction] = getWeatherFromPressure(current, direction);
@@ -711,7 +712,7 @@ function getWeatherFromPressure(value, direction) {
 			expect = "fair weather";
 		}
 		else if ( value < 1010 && direction < -0.5 ) {
-			expect = "a storm";
+			expect = "stormy weather";
 		}
 		else if ( value < 1010  ){
 			expect = "precipitation";
