@@ -659,7 +659,7 @@ function getRelativeTime(epoch) {
 }
 
 function getTemperatureString(TinC, recorded=false, correction=false) {
-	if ( recorded != false && correction != false ) {
+	if ( recorded != false && correction != false && correction != 0 ) {
 		return "<abbr title=\"Recorded value of " + round_to_one(recorded) + "&deg;C (with a correction factor of " + round_to_one(correction) + "&deg;C)\">"  + round_to_one(TinC) + "&deg;C</abbr> / " + round_to_one(Feels.tempConvert(TinC, "c", "f")) + "&deg;F";
 	}
 	return round_to_one(TinC) + "&deg;C / " + round_to_one(Feels.tempConvert(TinC, "c", "f")) + "&deg;F";
@@ -740,7 +740,6 @@ function getWindString(wind, gust, direction) {
 	var details = {"speed": 0, "gust": false, "direction": ""};
 	var string = [ "There is a" ];
 	details["speed"] = Math.max(parseFloat(wind), parseFloat(gust));
-	console.log(wind, gust, details["speed"]);
 	if ( gust >= wind ) { details["gust"] = true; }
 	if ( details["speed"] > 0 && direction != "" ) { details["direction"] = direction; }
 
@@ -848,6 +847,7 @@ function main(place, text){
 	var [result, records] = fetchCSV(text);
 	var latest = result[result.length - 1];
 	var correction_factor = find_correction(result, 24);
+	if (place == "Nailsea") { correction_factor = 0; }
 
 	// find out the greatest wind speed and which we are using
 	var [wind_speed, wind_string] = getWindString(latest[8], latest[9], latest[10]);
