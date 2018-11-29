@@ -585,18 +585,18 @@ function find_correction(data, hours) {
 
 function getBeaufortScale(mph) {
 	mph = Math.round(mph);
-	if ( mph < 4 ) { return "a light wind"; }
-	else if ( mph >= 4 && mph < 8 ) { return "light breeze"; }
-	else if ( mph >= 8 && mph < 13 ) { return "gentle breeze"; }
-	else if ( mph >= 13 && mph < 19 ) { return "breeze"; }
-	else if ( mph >= 19 && mph < 25 ) { return "fresh breeze"; }
-	else if ( mph >= 25 && mph < 32 ) { return "strong breeze"; }
-	else if ( mph >= 32 && mph < 39 ) { return "moderate gale force wind"; }
-	else if ( mph >= 39 && mph < 47 ) { return "fresh gale force wind"; }
-	else if ( mph >= 47 && mph < 55 ) { return "strong gale force wind"; }
-	else if ( mph >= 55 && mph < 64 ) { return "storm force wind"; }
-	else if ( mph >= 64 && mph < 74 ) { return "violent storm force wind"; }
-	else if ( mph >= 74 ) { return "hurricane force wind"; }
+	if ( mph < 4 ) { return "a light wind (" + mph + " mph)"; }
+	else if ( mph >= 4 && mph < 8 ) { return "light breeze (" + mph + " mph)"; }
+	else if ( mph >= 8 && mph < 13 ) { return "gentle breeze (" + mph + " mph)"; }
+	else if ( mph >= 13 && mph < 19 ) { return "breeze (" + mph + " mph)"; }
+	else if ( mph >= 19 && mph < 25 ) { return "fresh breeze (" + mph + " mph)"; }
+	else if ( mph >= 25 && mph < 32 ) { return "strong breeze (" + mph + " mph)"; }
+	else if ( mph >= 32 && mph < 39 ) { return "moderate gale force wind (" + mph + " mph)"; }
+	else if ( mph >= 39 && mph < 47 ) { return "fresh gale force wind (" + mph + " mph)"; }
+	else if ( mph >= 47 && mph < 55 ) { return "strong gale force wind (" + mph + " mph)"; }
+	else if ( mph >= 55 && mph < 64 ) { return "storm force wind (" + mph + " mph)"; }
+	else if ( mph >= 64 && mph < 74 ) { return "violent storm force wind (" + mph + " mph)"; }
+	else if ( mph >= 74 ) { return "hurricane force wind (" + mph + " mph)"; }
 	else { return mph + " mph wind"; }
 }
 
@@ -743,7 +743,7 @@ function getWindString(wind, gust, direction) {
 	if ( gust >= wind ) { details["gust"] = true; }
 	if ( details["speed"] > 0 && direction != "" ) { details["direction"] = direction; }
 
-	if ( details["speed"] > 0 ) {
+	if ( details["speed"] > 2 ) {
 		if ( details["gust"] ) { string.push("gusty"); }
 		string.push( getBeaufortScale(details["speed"]) );
 		if ( details["direction"] != "" ) { string.push( "from the " + details["direction"] + "." ); }
