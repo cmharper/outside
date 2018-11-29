@@ -739,7 +739,8 @@ function getWeatherFromPressure(value, direction) {
 function getWindString(wind, gust, direction) {
 	var details = {"speed": 0, "gust": false, "direction": ""};
 	var string = [ "There is a" ];
-	details["speed"] = Math.max(parseFloat(wind, gust));
+	details["speed"] = Math.max(parseFloat(wind), parseFloat(gust));
+	console.log(wind, gust, details["speed"]);
 	if ( gust >= wind ) { details["gust"] = true; }
 	if ( details["speed"] > 0 && direction != "" ) { details["direction"] = direction; }
 
