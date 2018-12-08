@@ -259,27 +259,27 @@ function compile_dates() {
 		"12 Apr": ["Yuri's Night"],
 		"16 Apr": ["Foursquare Day"],
 		"23 Apr": ["St George's Day"],
-		"12 Aug": ["Glorious Twelfth"],
-		"15 Aug": ["Assumption of Mary"],
+		"12 Aug": [">Glorious Twelfth"],
+		"15 Aug": [">Assumption of Mary"],
 		"24 Dec": ["Christmas Eve"],
 		"25 Dec": ["Christmas Day", "A partridge in a pear tree"],
 		"26 Dec": ["Boxing Day", "Two turtle doves"],
-		"27 Dec": ["Three french hens"],
-		"28 Dec": ["Four calling birds"],
-		"29 Dec": ["Five gold rings"],
-		"30 Dec": ["Six geese a-laying"],
+		"27 Dec": [">Three french hens"],
+		"28 Dec": [">Four calling birds"],
+		"29 Dec": [">Five gold rings"],
+		"30 Dec": [">Six geese a-laying"],
 		"31 Dec": ["New Year's Eve", "Seven swans a-swimming"],
-		"08 Dec": ["Feast of the Immaculate Conception"],
+		"08 Dec": [">Feast of the Immaculate Conception"],
 		"14 Feb": ["Valentine's Day"],
 		"02 Feb": ["Groundhog Day"],
 		"01 Jan": ["New Year's Day", "Eight maids a-milking"],
 		"25 Jan": ["Burns Night"],
-		"02 Jan": ["Nine ladies dancing"],
-		"03 Jan": ["Ten lords a-leaping"],
-		"04 Jan": ["Eleven pipers piping"],
+		"02 Jan": [">Nine ladies dancing"],
+		"03 Jan": [">Ten lords a-leaping"],
+		"04 Jan": [">Eleven pipers piping"],
 		"05 Jan": ["Twelfth Night", "Twelve drummers drumming"],
 		"06 Jan": ["Epiphany"],
-		"12 Jul": ["Battle of the Boyne"],
+		"12 Jul": [">Battle of the Boyne"],
 		"04 Jul": ["Independence Day (USA)"],
 		"14 Jun": ["Flag Day (USA)"],
 		"14 Mar": ["Pi Day"],
@@ -293,14 +293,23 @@ function compile_dates() {
 		"30 Nov": ["St Andrew's Day"],
 		"05 Nov": ["Guy Fawkes Night"],
 		"31 Oct": ["Halloween"],
-		"04 Oct": ["Feast of St Francis of Assisi"]
+		"04 Oct": [">Feast of St Francis of Assisi"]
 	};
 	dates = doEaster(dates, current_year);
 	dates = doChineseNewYear(dates, current_year);
 	dates = doSpecialDays(dates, current_year);
 	dates = dates[get_Date(new Date().toUTCString(), false)];
 	if ( typeof dates != "undefined" ) {
-		dates = "<p>It is " + dates.join(" .").trim() + ".</p>";
+		start = "It is ";
+		if (dates[0].startsWith('>')) {
+			start = "";
+		}
+		for ( var d=0; d<dates.length; d++ ) {
+			if (dates[d].startsWith('>')) {
+				dates[d] = dates[d].substring(1);
+			}
+		}
+		dates = "<p>" + start + dates.join(".  ").trim() + ".</p>";
 		document.querySelector("#header").style.display = "block";
 	}
 	else {
@@ -393,7 +402,7 @@ function doBackgroundColour() {
 function doChineseNewYear(obj, YYYY){
 	var fetch = chinese_new_year(YYYY);
 	if ( fetch != null ) {
-		add_to_dates(obj, fetch[0], "Chinese New Year (Year of the " + toTitleCase(fetch[1]) + ")");
+		add_to_dates(obj, fetch[0], ">Chinese New Year (Year of the " + toTitleCase(fetch[1]) + ")");
 	}
 	return obj;
 }
@@ -409,18 +418,18 @@ function doEaster(obj, YYYY) {
 	obj = add_to_dates(obj, get_Date(new Date((easter - (47 * 86400)) * 1000).toUTCString(), false, 2), "Shrove Tuesday / Pancake Day");
 	obj = add_to_dates(obj, get_Date(new Date((easter - (46 * 86400)) * 1000).toUTCString(), false, 2), "Ash Wednesday");
 	obj = add_to_dates(obj, get_Date(new Date((easter + (1 * 86400)) * 1000).toUTCString(), false, 2), "Easter Monday");
-	obj = add_to_dates(obj, get_Date(new Date((easter + (39 * 86400)) * 1000).toUTCString(), false, 2), "Feast of the Ascension");
+	obj = add_to_dates(obj, get_Date(new Date((easter + (39 * 86400)) * 1000).toUTCString(), false, 2), ">Feast of the Ascension");
 	obj = add_to_dates(obj, get_Date(new Date((easter + (49 * 86400)) * 1000).toUTCString(), false, 2), "Pentecost / Whitsunday");
 	obj = add_to_dates(obj, get_Date(new Date((easter + (56 * 86400)) * 1000).toUTCString(), false, 2), "Trinity Sunday");
-	obj = add_to_dates(obj, get_Date(new Date((easter + (60 * 86400)) * 1000).toUTCString(), false, 2), "Corpus Christi");
+	obj = add_to_dates(obj, get_Date(new Date((easter + (60 * 86400)) * 1000).toUTCString(), false, 2), ">Corpus Christi");
 	return obj;
 }
 
 function doSpecialDays(obj, YYYY){
 	add_to_dates(obj, get_Date(new Date(getMonthlyWeekday(3,"Monday", "February", YYYY) * 1000).toUTCString(), false, 2), "Presidents' Day (USA)");
 	add_to_dates(obj, get_Date(new Date(getMonthlyWeekday(3,"Monday", "January", YYYY) * 1000).toUTCString(), false, 2), "Martin Luther King Jr Day (USA)");
-	add_to_dates(obj, get_Date(new Date(getMonthlyWeekday(1,"Monday", "May", YYYY) * 1000).toUTCString(), false, 2), "May Day bank holiday");
-	add_to_dates(obj, get_Date(new Date(getMonthlyWeekday(2,"Saturday", "June", YYYY) * 1000).toUTCString(), false, 2), "Trooping the Colour");
+	add_to_dates(obj, get_Date(new Date(getMonthlyWeekday(1,"Monday", "May", YYYY) * 1000).toUTCString(), false, 2), ">May Day bank holiday Monday");
+	add_to_dates(obj, get_Date(new Date(getMonthlyWeekday(2,"Saturday", "June", YYYY) * 1000).toUTCString(), false, 2), ">Trooping the Colour");
 	add_to_dates(obj, get_Date(new Date(getMonthlyWeekday(3,"Sunday", "June", YYYY) * 1000).toUTCString(), false, 2), "Father's Day");
 	add_to_dates(obj, get_Date(new Date(getMonthlyWeekday(1,"Monday", "September", YYYY) * 1000).toUTCString(), false, 2), "Labor Day (USA)");
 	add_to_dates(obj, get_Date(new Date(getMonthlyWeekday(2,"Monday", "October", YYYY) * 1000).toUTCString(), false, 2), "Columbus Day (USA)");
@@ -428,9 +437,9 @@ function doSpecialDays(obj, YYYY){
 	add_to_dates(obj, get_Date(new Date(((getMonthlyWeekday(4,"Thursday", "November", YYYY) + 86400)) * 1000).toUTCString(), false, 2), "Black Friday");
 	add_to_dates(obj, get_Date(new Date(((getMonthlyWeekday(4,"Thursday", "November", YYYY) + (4 * 86400))) * 1000).toUTCString(), false, 2), "Cyber Monday");
 
-	add_to_dates(obj, get_Date(new Date(getLastXdays("Monday", "May", YYYY) * 1000).toUTCString(), false, 2), "Spring bank holiday / Memorial Day (USA)");
+	add_to_dates(obj, get_Date(new Date(getLastXdays("Monday", "May", YYYY) * 1000).toUTCString(), false, 2), ">Spring bank holiday Monday / Memorial Day (USA)");
 
-	add_to_dates(obj, get_Date(new Date(getLastXdays("Monday", "August", YYYY) * 1000).toUTCString(), false, 2), "Summer bank holiday");
+	add_to_dates(obj, get_Date(new Date(getLastXdays("Monday", "August", YYYY) * 1000).toUTCString(), false, 2), ">Summer bank holiday Monday");
 
 	var date = new Date(YYYY + "/12/25").getTime();
 	while ( new Date(date).getUTCDay() != 0 ) {
@@ -439,18 +448,18 @@ function doSpecialDays(obj, YYYY){
 	add_to_dates(obj, get_Date(new Date(date - (21 * 86400000)).toUTCString(), false, 2), "Advent Sunday");
 
 	date = getLastXdays("Sunday", "March", YYYY);
-	add_to_dates(obj, get_Date(new Date((date - (1 * 86400)) * 1000).toUTCString(), false, 2), "The clocks go forward one hour tonight.  Spring forward.");
-	add_to_dates(obj, get_Date(new Date((date - (0 * 86400)) * 1000).toUTCString(), false, 2), "The clocks went forward one hour last night.  Spring forward.");
+	add_to_dates(obj, get_Date(new Date((date - (1 * 86400)) * 1000).toUTCString(), false, 2), ">The clocks go forward one hour tonight.  Spring forward.");
+	add_to_dates(obj, get_Date(new Date((date - (0 * 86400)) * 1000).toUTCString(), false, 2), ">The clocks went forward one hour last night.  Spring forward.");
 
 	date = getLastXdays("Sunday", "October", YYYY);
-	add_to_dates(obj, get_Date(new Date((date - (1 * 86400)) * 1000).toUTCString(), false, 2), "The clocks go back one hour tonight.  Fall back.");
-	add_to_dates(obj, get_Date(new Date((date - (0 * 86400)) * 1000).toUTCString(), false, 2), "The clocks went back one hour last night.  Fall back.");
+	add_to_dates(obj, get_Date(new Date((date - (1 * 86400)) * 1000).toUTCString(), false, 2), ">The clocks go back one hour tonight.  Fall back.");
+	add_to_dates(obj, get_Date(new Date((date - (0 * 86400)) * 1000).toUTCString(), false, 2), ">The clocks went back one hour last night.  Fall back.");
 
 	date = Date.getSeasons();
-	add_to_dates(obj, get_Date(date[1].toUTCString(), false, 2), "Vernal equinox");
-	add_to_dates(obj, get_Date(date[2].toUTCString(), false, 2), "Summer solstice");
-	add_to_dates(obj, get_Date(date[3].toUTCString(), false, 2), "Autumnal equinox");
-	add_to_dates(obj, get_Date(date[4].toUTCString(), false, 2), "Winter solstice");
+	add_to_dates(obj, get_Date(date[1].toUTCString(), false, 2), ">Vernal equinox.  It is now Spring.");
+	add_to_dates(obj, get_Date(date[2].toUTCString(), false, 2), ">Summer solstice.  Today is the longest day of the year.");
+	add_to_dates(obj, get_Date(date[3].toUTCString(), false, 2), ">Autumnal equinox.  It is now Autumn.");
+	add_to_dates(obj, get_Date(date[4].toUTCString(), false, 2), ">Winter solstice.  Today is the shortest day of the year.");
 	return obj;
 }
 
