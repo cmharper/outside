@@ -10,8 +10,8 @@ const ICONS = [ "clear-day", "clear-night", "rain", "snow", "sleet", "wind", "fo
 const AVAILABLE = ["time", "temperature", "humidity", "battery", "summary", "icon", "temp", "pressure", "wind", "gust", "direction", "cloud_cover", "uv", "visibility", "ozone"];
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const LOCATIONS = ["Nailsea", "Chitterne"];
-// const LOCATIONS = ["Chitterne"];
+// const LOCATIONS = ["Nailsea", "Chitterne"];
+const LOCATIONS = ["Chitterne"];
 var LAST_UPDATED = [];
 for (var l in LOCATIONS) { LAST_UPDATED[LOCATIONS[l]] = null; }
 var ss, chroma, SunCalc, Skycons, Feels;
@@ -276,7 +276,7 @@ function compile_dates() {
 		"02 Jan": ["><a href=\"https://en.wikipedia.org/wiki/The_Twelve_Days_of_Christmas_(song)\">Nine ladies dancing</a>"],
 		"03 Jan": ["><a href=\"https://en.wikipedia.org/wiki/The_Twelve_Days_of_Christmas_(song)\">Ten lords a-leaping</a>"],
 		"04 Jan": ["><a href=\"https://en.wikipedia.org/wiki/The_Twelve_Days_of_Christmas_(song)\">Eleven pipers piping</a>"],
-		"05 Jan": ["<a href=\"\">Twelfth Night</a>", "<a href=\"https://en.wikipedia.org/wiki/The_Twelve_Days_of_Christmas_(song)\">Twelve drummers drumming</a>"],
+		"05 Jan": ["<a href=\"https://en.wikipedia.org/wiki/Twelfth_Night_(holiday)\">Twelfth Night</a>", "<a href=\"https://en.wikipedia.org/wiki/The_Twelve_Days_of_Christmas_(song)\">Twelve drummers drumming</a>"],
 		"06 Jan": ["<a href=\"https://en.wikipedia.org/wiki/Epiphany_(holiday)\">Epiphany</a>"],
 		"12 Jul": ["><a href=\"https://en.wikipedia.org/wiki/Battle_of_the_Boyne\">Battle of the Boyne</a> / <a href=\"https://en.wikipedia.org/wiki/The_Twelfth\">The Twelfth</a>"],
 		"04 Jul": ["<a href=\"https://en.wikipedia.org/wiki/Independence_Day_(United_States)\">Independence Day (USA)</a>"],
@@ -289,11 +289,12 @@ function compile_dates() {
 		"25 May": ["<a href=\"https://en.wikipedia.org/wiki/Towel_Day\">Towel Day</a>"],
 		"04 May": ["<a href=\"https://en.wikipedia.org/wiki/Star_Wars_Day\">Star Wars Day</a>"],
 		"11 Nov": ["<a href=\"https://en.wikipedia.org/wiki/Remembrance_Sunday\">Remembrance Sunday</a>"],
+		"01 Aug": ["<a href=\"https://en.wikipedia.org/wiki/Lughnasadh\">Lughnasadh</a>"],
 		"01 Nov": ["<a href=\"https://en.wikipedia.org/wiki/All_Saints%27_Day\">All Saints' Day</a>"],
 		"02 Nov": ["<a href=\"https://en.wikipedia.org/wiki/All_Souls%27_Day\">All Souls' Day</a>"],
 		"30 Nov": ["<a href=\"St Andrew's Day\">St Andrew's Day</a>"],
 		"05 Nov": ["<a href=\"https://en.wikipedia.org/wiki/Guy_Fawkes_Night\">Guy Fawkes Night</a>"],
-		"31 Oct": ["<a href=\"https://en.wikipedia.org/wiki/Halloween\">Hallowe'en</a>"],
+		"31 Oct": ["<a href=\"https://en.wikipedia.org/wiki/Halloween\">Hallowe'en</a>", "<a href=\"https://en.wikipedia.org/wiki/Samhain\">Samhain</a>"],
 		"04 Oct": ["><a href=\"https://www.timeanddate.com/holidays/us/st-francis-assisi-feast\">Feast of St Francis of Assisi</a>"],
 		"07 Jan": ["<a href=\"https://en.wikipedia.org/wiki/Distaff_Day\">Distaff Day</a>"],
 		"01 Feb": ["><a href=\"https://en.wikipedia.org/wiki/Imbolc\">Imbolc</a>"],
@@ -321,12 +322,12 @@ function compile_dates() {
 		}
 		dates = "<p>" + start + dates.join(".  ").trim() + ".</p>";
 		document.querySelector("#header").style.display = "block";
+		document.querySelector("#header span:nth-child(1)").innerHTML = dates;
 	}
 	else {
 		dates = "";
 		document.querySelector("#header").style.display = "none";
 	}
-	document.querySelector("#header span:nth-child(1)").innerHTML = dates;
 }
 
 function convertUV(num) {
@@ -334,7 +335,7 @@ function convertUV(num) {
 	if ( num == "" || num <= 2) { return ["L", "low", colour, "You can safely stay outside."]; }
 	else if ( num <= 5) { return ["M", "moderate", colour, "Take care during midday hours and do not spend too much time in the sun unprotected."]; }
 	else if ( num <= 7) { return ["H", "high", colour, "Seek shade during midday hours, cover up and wear sunscreen."]; }
-	else if ( num <= 10) { return ["VH", "very high", colour, "Spend time in the shade between 11am and 3pm. A shirt, sunscreen and hat essential"]; }
+	else if ( num <= 10) { return ["V", "very high", colour, "Spend time in the shade between 11am and 3pm. A shirt, sunscreen and hat are essential."]; }
 	return ["E", "extreme", colour, "Avoid being outside during midday hours. A shirt, sunscreen and hat are essential."];
 }
 
@@ -683,7 +684,7 @@ function getMonthlyWeekday(n, weekday, date) {
 function getOzone(value) {
 	var [short, name, colour] = convert_Dobson_to_text(value);
 	if ( short == "L" ) { return ""; }
-	return "<p><span class=\"diamond\" style=\"background-color: " + colour + "\">" + short + "</span> The ozone level is " + name + " ("+ value + " Dobson units).</p>";
+	return "<p>The pollution level is " + name + " ("+ value + " Dobson units).</p>";
 }
 
 function getPressures(data, current) {
@@ -694,10 +695,13 @@ function getPressures(data, current) {
 	pressure_points = pressure_points.map(function(i,idx){ return [idx, i]});
 	var direction = ss.linearRegression(pressure_points)["m"];
 	var expect = "";
-	[expect, direction] = getWeatherFromPressure(current, direction);
-	string.push("The pressure is " + current + " mbar and " + direction +".");
-	if ( expect != "" ) { string.push( "Expect " + expect + " for the next 12 hours." ); }
-	return "<p>" + string.join(" ").trim() + "</p>";
+	if ( current != "" ) {
+		[expect, direction] = getWeatherFromPressure(current, direction);
+		string.push("The pressure is " + current + " mbar and " + direction +".");
+		if ( expect != "" ) { string.push( "Expect " + expect + " for the next 12 hours." ); }
+		return "<p>" + string.join(" ").trim() + "</p>";
+	}
+	return "";
 }
 
 function getRelativeTime(epoch) {
@@ -723,23 +727,33 @@ function getTextColour(temperature_hex) {
 function getUV(value) {
 	var name, colour, advice;
 	[value, name, colour, advice] = convertUV(value);
-	return "<p><span class=\"diamond\" style=\"background-color: " + colour + "\">" + value + "</span>&nbsp;The UV level is " + name + ". "+ advice + "</p>";
+	return "<p><span class=\"diamond\" style=\"background-color: " + colour + "\">" + value + "</span>The UV level is " + name + ". "+ advice + "</p>";
+}
+
+function sentenceCase(str){
+	var str = str.toLowerCase().replace(/\si\s/g, ' I ');
+	str = str.charAt(0).toUpperCase() + str.slice(1);
+	return str
 }
 
 function getVisibility(visibility, cloud_cover) {
 	var string = [];
-	if ( cloud_cover != "" ) {
+	if ( cloud_cover != "" || cloud_cover == 0 ) {
 		cloud_cover = parseInt(cloud_cover);
-		if ( cloud_cover == 0 ) {
-			string.push("There are no clouds");
-		}
-		else {
-			string.push( "There is " + cloud_cover + "% cloud cover");
+		if ( ! isNaN(cloud_cover) && cloud_cover <= 100 && cloud_cover >= 0 ) {
+			if ( cloud_cover == 0 ) {
+				string.push("There are no clouds");
+			}
+			else {
+				string.push( "There is " + cloud_cover + "% cloud cover");
+			}
 		}
 	}
 	if ( visibility != "" ) {
-		if ( visibility > 0 ) {
+		visibility = parseInt(visibility);
+		if ( visibility > 0 && visibility < 20 ) {
 			string.push( convert_visibility(visibility) + "." );
+			string[0] = sentenceCase(string[0]);
 			string = [string.join(" and ")];
 			string.push( "You can see for " + visibility + " miles." );
 		}
@@ -786,16 +800,20 @@ function getWindString(wind, gust, direction) {
 	var details = {"speed": 0, "gust": false, "direction": ""};
 	var string = [ "There is a" ];
 	details["speed"] = Math.max(parseFloat(wind), parseFloat(gust));
+	if ( isNaN(details["speed"]) ) {
+		return [0, ""];
+	}
 	if ( gust >= wind ) { details["gust"] = true; }
 	if ( details["speed"] > 0 && direction != "" ) { details["direction"] = direction; }
-
 	if ( details["speed"] > 2 ) {
 		if ( details["gust"] ) { string.push("gusty"); }
 		string.push( getBeaufortScale(details["speed"]) );
-		if ( details["direction"] != "" ) { string.push( "from the " + details["direction"] + "." ); }
+		if ( details["direction"] != "" && ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"].indexOf(details["direction"]) != "-1" ) { string.push( "from the " + details["direction"] ); }
 	}
 	if ( string.length == 1 ) { string = []; }
-	return [details["speed"], string.join(" ").trim()];
+	string = string.join(" ").trim();
+	if ( string.length > 0 ) { string += "."; }
+	return [details["speed"],  string];
 }
 
 function get_Date(datestring, full=false, length=1) {
@@ -889,14 +907,14 @@ function main(place, text){
 
 	if ( LOCATIONS.indexOf(place) == 0 ) { compile_dates(); }
 	// reset the page
-	document.querySelector("#" + place + " .conditions").innerHTML = "<span class=\"summary\"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>";
+	document.querySelector("#" + place + " .conditions").innerHTML = "<span class=\"summary\"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>";
 	// get the csv into an array
 	// the last line in the data is the line with the records on it, the
 	// one before that is the last recorded data
 	var [result, records] = fetchCSV(text);
 	var latest = result[result.length - 1];
 	var correction_factor = find_correction(result, 24);
-	if (place == "Nailsea") { correction_factor = 0; }
+	if ( isNaN(correction_factor) || correction_factor == null || place == "Nailsea") { correction_factor = 0; }
 
 	// find out the greatest wind speed and which we are using
 	var [wind_speed, wind_string] = getWindString(latest[8], latest[9], latest[10]);
@@ -913,6 +931,7 @@ function main(place, text){
 
 	// set the icon
 	var skycons = new Skycons({"color": text_colour, "resizeClear": true});
+	var skycons = new Skycons({"monochrome": false, "color": text_colour, "resizeClear": true, "colors" : {"sun": "#efd021", "moon": "#ddd"}});
 	skycons.remove("icon");
 	skycons.add(document.querySelector("#" + place + " .icon"), ICONS[latest[5] - 1]);
 
@@ -921,8 +940,12 @@ function main(place, text){
 	for (var part in fetch) {
 		var part_name = fetch[part];
 		var idx = AVAILABLE.indexOf(part_name);
+		var temp;
 		if ( latest[idx] != "" || latest[idx] == 0 ) {
 			if ( part_name == "summary" ) {
+				if ( latest[idx] == "" ) {
+					latest[idx] = "Unknown conditions";
+				}
 				document.querySelector("#" + place + " .conditions span:nth-child(1)").innerHTML = "<p>" + latest[idx] + "</p>";
 			}
 			else if ( part_name == "updated" ) {
@@ -936,23 +959,29 @@ function main(place, text){
 			}
 			else if ( part_name == "battery" ) {
 				if ( latest[idx] != "" ) {
-					if ( latest[idx] < 30 ) {
-						document.querySelector("#header span:nth-child(2)").innerHTML = "<p>&#128267; The battery in " + place + " is getting low - " + latest[idx] + "% remaining &#128267;</p>";
+					temp = parseInt(latest[idx]);
+					if ( !isNaN(temp) && temp < 30 ) {
+						document.querySelector("#header span:nth-child(2)").innerHTML = "<p>&#128267; The battery in " + place + " is getting low - " + latest[idx] + "% remaining</p>";
 					}
 				}
 			}
 			else if ( part_name == "uv" ) {
-				if ( latest[12] > 0 ){
-					document.querySelector("#" + place + " .conditions span:nth-child(8)").innerHTML = getUV(latest[12]);
+				temp = parseFloat(latest[12]);
+				if ( !isNaN(temp) && temp > 0 && temp < 15 ){
+					document.querySelector("#" + place + " .conditions span:nth-child(9)").innerHTML = getUV(temp);
 				}
 			}
 			else if ( part_name == "ozone" ) {
-				if ( latest[14] > 0 ){
-					document.querySelector("#" + place + " .conditions span:nth-child(9)").innerHTML = getOzone(latest[14]);
+				temp = parseFloat(latest[14]);
+				if ( !isNaN(temp) && temp > 200 && temp < 1000 ){
+					document.querySelector("#" + place + " .conditions span:nth-child(10)").innerHTML = getOzone(temp);
 				}
 			}
 			else if ( part_name == "pressure" ) {
-				document.querySelector("#" + place + " .conditions span:nth-child(4)").innerHTML = getPressures(result, latest[7]);
+				temp = parseFloat(latest[7]);
+				if ( !isNaN(temp) ) {
+					document.querySelector("#" + place + " .conditions span:nth-child(4)").innerHTML = getPressures(result, temp);
+				}
 			}
 		}
 	}
@@ -964,6 +993,9 @@ function main(place, text){
 		do_last_precipitate(place, latest, records);
 		astronomy(records[2], records[3], place);
 		last_updated(latest[0], place);
+		if ( document.querySelector("#header span:nth-child(2)").innerHTML != "" ) {
+			document.querySelector("#header").style.display = "block";
+		}
 	}, 15000);
 }
 
@@ -1023,7 +1055,7 @@ function page_setup() {
 
 function processTemperatures(colour, temperature, humidity, speed, correction, data, coldest, hottest) {
 	var string = [];
-	if ( temperature != "" && humidity != "" ) {
+	if ( ( temperature != "" || temperature == 0 ) && ( humidity != "" && humidity > 0 )  && (typeof temperature != "string" && typeof humidity != "string") ) {
 		var config = {
 			temp: parseFloat(temperature - correction),
 			humidity: parseFloat(humidity),
@@ -1039,13 +1071,13 @@ function processTemperatures(colour, temperature, humidity, speed, correction, d
 		}
 		string.push( getHumidityString(humidity) );
 	}
-	else if ( temperature != "" ) {
-		string.push( getTemperatureString(Temperatures.temp) );
+	else if ( typeof temperature == "number" && (temperature != "" || temperature == 0) ) {
+		string.push( "It is " + getTemperatureString(temperature) );
 	}
-	else if ( humidity != "" ) {
-		string.push( getHumidityString(humidity) );
+	else if ( typeof humidity == "number" && (humidity != "" || humidity == 0) ) {
+		string.push( "The humidity is " + getHumidityString(humidity) );
 	}
-	if (typeof Temperatures !== "undefined") {
+	if (typeof Temperatures !== "undefined" && ( humidity >=0 && humidity <= 100 ) ) {
 		var wetness = null;
 		var where = null;
 		if ( Temperatures.temp <= 0 && Temperatures.temp >= -80 ) {
