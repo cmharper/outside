@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+/* jshint multistr: true */
 // useful sites
 // https://github.com/strikeentco/feels
 // https://github.com/mourner/suncalc
@@ -311,7 +313,7 @@ function compile_dates() {
 	dates = doSpecialDays(dates, current_year);
 	dates = dates[get_Date(new Date().toUTCString(), false)];
 	if ( typeof dates != "undefined" ) {
-		start = "It is ";
+		var start = "It is ";
 		if (dates[0].startsWith('>')) {
 			start = "";
 		}
@@ -445,7 +447,7 @@ function doSpecialDays(obj, YYYY) {
 
 	// 5 july unless 5 july is saturday or sunday
 	var use_monday = false;
-	var proposed = get_Date(new Date(getMonthlyWeekday(1, "Saturday", new Date(YYYY, 6)) * 1000).toUTCString(), false, 2);
+	proposed = get_Date(new Date(getMonthlyWeekday(1, "Saturday", new Date(YYYY, 6)) * 1000).toUTCString(), false, 2);
 	if ( proposed == "05 Jul" ) {
 		use_monday = true;
 		proposed = get_Date(new Date(getMonthlyWeekday(2, "Monday", new Date(YYYY, 6)) * 1000).toUTCString(), false, 2);
@@ -517,12 +519,12 @@ function do_last_precipitate(place, latest, records) {
 
 function do_lunar(now, lunar) {
 	var string = [];
-	if ( typeof lunar[1]["alwaysUp"] != "undefined" ) {
+	if ( typeof lunar[1].alwaysUp != "undefined" ) {
 		string.push("The");
 		string.push(get_phase(lunar));
 		string.push("will not set below the horizon today.");
 	}
-	else if ( typeof lunar[1]["alwaysDown"] != "undefined" ) {
+	else if ( typeof lunar[1].alwaysDown != "undefined" ) {
 		string.push("The");
 		string.push(get_phase(lunar));
 		string.push("will not rise above the horizon today.");
@@ -674,7 +676,7 @@ function getMonthlyWeekday(n, weekday, date) {
 	// date is a javascript date object for example new Date(2018, 11) for december 2018
 	// see: https://stackoverflow.com/a/32193378
 	weekday = DAYS.indexOf(weekday);
-	var date = new Date(date.getUTCFullYear(), date.getMonth(), 1);
+	date = new Date(date.getUTCFullYear(), date.getMonth(), 1);
 	var add = (weekday - date.getUTCDay() + 7) % 7 + (n - 1) * 7;
 	date.setDate(1 + add);
 	// return (date.getTime() - (date.getTimezoneOffset() * 60000)) / 1000;
@@ -692,8 +694,8 @@ function getPressures(data, current) {
 	var end = (get_UTCDate() / 1000);
 	var start = end - (3600 * 12);
 	var pressure_points = get_element(data, 7, start, end, false);
-	pressure_points = pressure_points.map(function(i,idx){ return [idx, i]});
-	var direction = ss.linearRegression(pressure_points)["m"];
+	pressure_points = pressure_points.map(function(i,idx){ return [idx, i];});
+	var direction = ss.linearRegression(pressure_points).m;
 	var expect = "";
 	if ( current != "" ) {
 		[expect, direction] = getWeatherFromPressure(current, direction);
@@ -731,9 +733,9 @@ function getUV(value) {
 }
 
 function sentenceCase(str){
-	var str = str.toLowerCase().replace(/\si\s/g, ' I ');
+	str = str.toLowerCase().replace(/\si\s/g, ' I ');
 	str = str.charAt(0).toUpperCase() + str.slice(1);
-	return str
+	return str;
 }
 
 function getVisibility(visibility, cloud_cover) {
@@ -799,21 +801,21 @@ function getWeatherFromPressure(value, direction) {
 function getWindString(wind, gust, direction) {
 	var details = {"speed": 0, "gust": false, "direction": ""};
 	var string = [ "There is a" ];
-	details["speed"] = Math.max(parseFloat(wind), parseFloat(gust));
-	if ( isNaN(details["speed"]) ) {
+	details.speed = Math.max(parseFloat(wind), parseFloat(gust));
+	if ( isNaN(details.speed) ) {
 		return [0, ""];
 	}
-	if ( gust >= wind ) { details["gust"] = true; }
-	if ( details["speed"] > 0 && direction != "" ) { details["direction"] = direction; }
-	if ( details["speed"] > 2 ) {
-		if ( details["gust"] ) { string.push("gusty"); }
-		string.push( getBeaufortScale(details["speed"]) );
-		if ( details["direction"] != "" && ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"].indexOf(details["direction"]) != "-1" ) { string.push( "from the " + details["direction"] ); }
+	if ( gust >= wind ) { details.gust = true; }
+	if ( details.speed > 0 && direction != "" ) { details.direction = direction; }
+	if ( details.speed > 2 ) {
+		if ( details.gust ) { string.push("gusty"); }
+		string.push( getBeaufortScale(details.speed) );
+		if ( details.direction != "" && ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"].indexOf(details.direction) != "-1" ) { string.push( "from the " + details.direction ); }
 	}
 	if ( string.length == 1 ) { string = []; }
 	string = string.join(" ").trim();
 	if ( string.length > 0 ) { string += "."; }
-	return [details["speed"],  string];
+	return [details.speed,  string];
 }
 
 function get_Date(datestring, full=false, length=1) {
@@ -930,7 +932,6 @@ function main(place, text){
 	document.getElementById(place + "_updated").style.color = text_colour;
 
 	// set the icon
-	var skycons = new Skycons({"color": text_colour, "resizeClear": true});
 	var skycons = new Skycons({"monochrome": false, "color": text_colour, "resizeClear": true, "colors" : {"sun": "#efd021", "moon": "#ddd"}});
 	skycons.remove("icon");
 	skycons.add(document.querySelector("#" + place + " .icon"), ICONS[latest[5] - 1]);
@@ -1092,7 +1093,7 @@ function processTemperatures(colour, temperature, humidity, speed, correction, d
 			}
 			else {
 				wetness = "dew";
-			};
+			}
 			where = "grass";
 		}
 		if ( wetness !== null && where !== null ) {
