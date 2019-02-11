@@ -729,7 +729,7 @@ function getTextColour(temperature_hex) {
 function getUV(value) {
 	var name, colour, advice;
 	[value, name, colour, advice] = convertUV(value);
-	return "<p><span class=\"diamond\" style=\"background-color: " + colour + "\">" + value + "</span>The UV level is " + name + ". "+ advice + "</p>";
+	return "<p>The UV level is " + name + ". "+ advice + "</p>";
 }
 
 function sentenceCase(str){
