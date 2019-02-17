@@ -12,8 +12,8 @@ const ICONS = [ "clear-day", "clear-night", "rain", "snow", "sleet", "wind", "fo
 const AVAILABLE = ["time", "temperature", "humidity", "battery", "summary", "icon", "temp", "pressure", "wind", "gust", "direction", "cloud_cover", "uv", "visibility", "ozone"];
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-// const LOCATIONS = ["Nailsea", "Chitterne"];
-const LOCATIONS = ["Chitterne"];
+const LOCATIONS = ["Nailsea", "Chitterne"];
+// const LOCATIONS = ["Chitterne"];
 var LAST_UPDATED = [];
 for (var l in LOCATIONS) { LAST_UPDATED[LOCATIONS[l]] = null; }
 var ss, chroma, SunCalc, Skycons, Feels;
@@ -757,10 +757,10 @@ function getVisibility(visibility, cloud_cover) {
 			string.push( convert_visibility(visibility) + "." );
 			string[0] = sentenceCase(string[0]);
 			string = [string.join(" and ")];
-			string.push( "You can see for " + visibility + " miles." );
+			string.push( "You can see for " + visibility + " miles" );
 		}
 	}
-	return "<p>" + string.join(" ").trim() + "</p>";
+	return "<p>" + string.join(" ").trim() + ".</p>";
 }
 
 function getWeatherFromPressure(value, direction) {
