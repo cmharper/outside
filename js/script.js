@@ -917,6 +917,7 @@ function main(place, text){
 	var latest = result[result.length - 1];
 	var correction_factor = find_correction(result, 24);
 	if ( isNaN(correction_factor) || correction_factor == null || place == "Nailsea") { correction_factor = 0; }
+	if (latest[6] >= latest[1]) { correction_factor = 0; }
 
 	// find out the greatest wind speed and which we are using
 	var [wind_speed, wind_string] = getWindString(latest[8], latest[9], latest[10]);
