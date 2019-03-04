@@ -469,6 +469,7 @@ function doSpecialDays(obj, YYYY) {
 	add_to_dates(obj, get_Date(new Date(getMonthlyWeekday(3, "Monday", new Date(YYYY, 1)) * 1000).toUTCString(), false, 2), "<a href=\"https://en.wikipedia.org/wiki/Presidents_Day\">Presidents' Day (USA)</a>");
 	add_to_dates(obj, get_Date(new Date(getMonthlyWeekday(3, "Monday", new Date(YYYY, 0)) * 1000).toUTCString(), false, 2), "<a href=\"https://en.wikipedia.org/wiki/Martin_Luther_King_Jr._Day\">Martin Luther King Jr Day (USA)</a>");
 	add_to_dates(obj, get_Date(new Date(getMonthlyWeekday(1, "Monday", new Date(YYYY, 4)) * 1000).toUTCString(), false, 2), "><a href=\"https://en.wikipedia.org/wiki/May_Day\">May Day bank holiday Monday</a>");
+	add_to_dates(obj, get_Date(new Date(getMonthlyWeekday(2, "Saturday", new Date(YYYY, 4)) * 1000).toUTCString(), false, 2), "><a href=\"https://en.wikipedia.org/wiki/Bird_Day#World_Migratory_Bird_Day\">World Migratory Bird Day</a>");
 	add_to_dates(obj, get_Date(new Date(getMonthlyWeekday(2, "Saturday", new Date(YYYY, 5)) * 1000).toUTCString(), false, 2), "><a href=\"https://en.wikipedia.org/wiki/Trooping_the_Colour\">Trooping the Colour</a>");
 	add_to_dates(obj, get_Date(new Date(getMonthlyWeekday(3, "Sunday", new Date(YYYY, 5)) * 1000).toUTCString(), false, 2), "<a href=\"https://en.wikipedia.org/wiki/Father%27s_Day\">Father's Day</a>");
 	add_to_dates(obj, get_Date(new Date(getMonthlyWeekday(1, "Monday", new Date(YYYY, 8)) * 1000).toUTCString(), false, 2), "<a href=\"https://en.wikipedia.org/wiki/Labor_Day\">Labor Day (USA)</a>");
@@ -699,7 +700,7 @@ function getPressures(data, current) {
 	var expect = "";
 	if ( current != "" ) {
 		[expect, direction] = getWeatherFromPressure(current, direction);
-		string.push("The pressure is " + current + " mbar and " + direction +".");
+		string.push("The pressure is " + current + " mbar and " + direction + ".");
 		if ( expect != "" ) { string.push( "Expect " + expect + " for the next 12 hours." ); }
 		return "<p>" + string.join(" ").trim() + "</p>";
 	}
@@ -760,7 +761,11 @@ function getVisibility(visibility, cloud_cover) {
 			string.push( "You can see for " + visibility + " miles" );
 		}
 	}
-	return "<p>" + string.join(" ").trim() + ".</p>";
+	string = string.join(" ").trim();
+	if (string.length > 0) {
+		return "<p>" + string + ".</p>";
+	}
+	return "";
 }
 
 function getWeatherFromPressure(value, direction) {
