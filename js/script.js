@@ -112,7 +112,7 @@ function add_to_dates(obj, adate, astring) {
 		obj[adate] = [astring];
 	}
 	else {
-		obj[adate].push(astring);
+		obj[adate].unshift(astring);
 	}
 	return obj;
 }
