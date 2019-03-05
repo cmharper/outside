@@ -307,7 +307,7 @@ function compile_dates() {
 		"14 Jun": ["<a href=\"https://en.wikipedia.org/wiki/Flag_Day_(United_States)\">Flag Day (USA)</a>"],
 		"15 Jun": ["><a href=\"https://en.wikipedia.org/wiki/Great_Smoky_Mountains_National_Park\">Great Smoky Mountains National Park founded</a>"],
 		"28 Jun": ["<a href=\"https://en.wikipedia.org/wiki/Pi_Day\">Tau Day</a>, <a href=\"https://en.wikipedia.org/wiki/Biscayne_National_Park\">Biscayne National Park founded</a>"],
-		"29 Jun": ["><a href=\"https://en.wikipedia.org/wiki/Mesa_Verde_National_Park\">Mesa Verde</a>" and <a href=\"https://en.wikipedia.org/wiki/Olympic_National_Park\">Olympic</a> National Parks founded"],
+		"29 Jun": ["><a href=\"https://en.wikipedia.org/wiki/Mesa_Verde_National_Park\">Mesa Verde</a> and <a href=\"https://en.wikipedia.org/wiki/Olympic_National_Park\">Olympic</a> National Parks founded"],
 		"30 Jun": ["<a href=\"https://en.wikipedia.org/wiki/Asteroid_Day\">International Asteroid Day</a>"],
 		"01 Jul": ["><a href=\"https://en.wikipedia.org/wiki/Mammoth_Cave_National_Park\">Mammoth Cave National Park founded</a>"],
 		"04 Jul": ["<a href=\"https://en.wikipedia.org/wiki/Independence_Day_(United_States)\">Independence Day (USA)</a>"],
