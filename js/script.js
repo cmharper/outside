@@ -283,7 +283,7 @@ function compile_dates() {
 		"03 Mar": ["<a href=\"https://en.wikipedia.org/wiki/World_Wildlife_Day\">World Wildlife Day</a>"],
 		"04 Mar": ["><a href=\"https://en.wikipedia.org/wiki/Hot_Springs_National_Park\">Hot Springs</a> and <a href=\"https://en.wikipedia.org/wiki/Kings_Canyon_National_Park\">Kings Canyon</a> National Parks founded"],
 		"05 Mar": ["><a href=\"https://en.wikipedia.org/wiki/Channel_Islands_National_Park\">Channel Islands National Park</a> founded"],
-		"14 Mar": ["<a href=\"https://en.wikipedia.org/wiki/Pi_Day\">Pi Day</a> / <a href=\"https://en.wikipedia.org/wiki/White_Day\"></a>"],
+		"14 Mar": ["<a href=\"https://en.wikipedia.org/wiki/Pi_Day\">Pi Day</a> / <a href=\"https://en.wikipedia.org/wiki/White_Day\">White Day</a>"],
 		"17 Mar": ["<a href=\"https://en.wikipedia.org/wiki/St_Patrick%27s_Day\">St Patrick's Day</a>"],
 		"20 Mar": ["><a href=\"https://en.wikipedia.org/wiki/International_Day_of_Happiness\">International Day of Happiness</a>"],
 		"25 Mar": ["<a href=\"https://en.wikipedia.org/wiki/Tolkien_Reading_Day\">Tolkien Reading Day</a>"],
