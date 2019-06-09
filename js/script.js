@@ -1223,7 +1223,7 @@ function when_is_easter(Y) {
 	var L = I - J;
 	var M = 3 + Math.floor((L + 40)/44);
 	var D = L + 28 - 31*Math.floor(M/4);
-	return (new Date(zeroPad(D, 2) + " " + MONTHS[M-1].slice(0,3) + Y).getTime()) / 1000;
+	return (Date.UTC(Y, M-1, D)) / 1000;
 }
 
 function zeroPad(num, padlen, padchar) {
