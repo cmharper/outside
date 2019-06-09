@@ -12,6 +12,12 @@ const ICONS = [ "clear-day", "clear-night", "rain", "snow", "sleet", "wind", "fo
 const AVAILABLE = ["time", "temperature", "humidity", "battery", "summary", "icon", "temp", "pressure", "wind", "gust", "direction", "cloud_cover", "uv", "visibility", "ozone"];
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const LOCALTIME = new Intl.DateTimeFormat('en-GB', {
+	year: 'numeric', month: 'long', day: 'numeric',
+	hour: 'numeric', minute: 'numeric', second: 'numeric',
+	hour12: false,
+	timeZone: 'Europe/London'
+});
 const LOCATIONS = ["Nailsea", "Chitterne"];
 // const LOCATIONS = ["Chitterne"];
 var LAST_UPDATED = [];
@@ -356,7 +362,7 @@ function compile_dates() {
 	dates = doEaster(dates, current_year);
 	dates = doChineseNewYear(dates, current_year);
 	dates = doSpecialDays(dates, current_year);
-	dates = dates[get_Date(new Date().toUTCString(), false)];
+	dates = dates[get_Date(new Date(LOCALTIME.format(new Date)).toUTCString(), false)];
 	if ( typeof dates != "undefined" ) {
 		var start = "It is ";
 		if (dates[0].startsWith('>')) {
@@ -869,12 +875,19 @@ function getWindString(wind, gust, direction) {
 }
 
 function get_Date(datestring, full=false, length=1) {
+
 	var parts = datestring.split(" ");
 	var required = [];
 	if (parts[1].length > length) { length = parts[1].length; }
 	required.push(zeroPad(parts[1], length));
 	required.push(parts[2]);
 	if ( full ) { required.push(zeroPad(parts[3], 4)); }
+	//TODO
+	// var test = Date.parse(datestring);
+	// test = new Date(test);
+	// console.log(parts)
+	// console.log(zeroPad(test.getUTCDate(), 2)+" "+MONTHS[test.getUTCMonth()].slice(0,3))
+	// console.log(required.join(" ").trim())
 	return required.join(" ").trim();
 }
 
@@ -916,10 +929,11 @@ function get_phase(lunar) {
 
 function get_time(which, full=false) {
 	var words = [];
+	which = new Date(Date.parse(LOCALTIME.format(which)));
 	if ( full == true ) {
-		words.push(get_Date(which.toUTCString(), true));
+		words.push(get_Date(which.toString(), true));
 	}
-	words.push( zeroPad(which.getUTCHours(), 2) + ":" + zeroPad(which.getUTCMinutes(), 2) );
+	words.push( zeroPad(which.getHours(), 2) + ":" + zeroPad(which.getMinutes(), 2) );
 	return words.join(" at ").trim();
 }
 
