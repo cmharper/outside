@@ -309,6 +309,7 @@ function compile_dates() {
 		"25 May": ["<a href=\"https://en.wikipedia.org/wiki/Towel_Day\">Towel Day</a>"],
 		"30 May": ["><a href=\"https://en.wikipedia.org/wiki/Everglades_National_Park\">Everglades National Park</a> founded"],
 		"03 Jun": ["<a href=\"https://en.wikipedia.org/wiki/World_Bicycle_Day\">World Bicycle Day</a>"],
+		"06 Jun": ["<a href=\"https://en.wikipedia.org/wiki/Normandy_landings\">D-Day</a>"],
 		"12 Jun": ["><a href=\"https://en.wikipedia.org/wiki/Big_Bend_National_Park\">Big Bend National Park</a> founded"],
 		"14 Jun": ["<a href=\"https://en.wikipedia.org/wiki/Flag_Day_(United_States)\">Flag Day (USA)</a>"],
 		"15 Jun": ["><a href=\"https://en.wikipedia.org/wiki/Great_Smoky_Mountains_National_Park\">Great Smoky Mountains National Park</a> founded"],
