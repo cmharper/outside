@@ -514,7 +514,7 @@ function doSpecialDays(obj, YYYY) {
 	if ( ! use_monday ) {
 		proposed = "05 Jul";
 	}
-	add_to_dates(obj, proposed, "<a href=\"https://en.wikipedia.org/wiki/Tynwald_Day\">Tynwald_Day</a>");
+	add_to_dates(obj, proposed, "<a href=\"https://en.wikipedia.org/wiki/Tynwald_Day\">Tynwald Day</a>");
 
 	add_to_dates(obj, get_Date(new Date(getMonthlyWeekday(1, "Monday", new Date(YYYY, 0)) * 1000).toUTCString(), false, 2), "><a href=\"https://en.wikipedia.org/wiki/Handsel_Monday\">Handsel Monday</a>");
 	add_to_dates(obj, get_Date(new Date(getMonthlyWeekday(1, "Saturday", new Date(YYYY, 1)) * 1000).toUTCString(), false, 2), "><a href=\"https://en.wikipedia.org/wiki/Ice_Cream_for_Breakfast_Day\">Ice cream for breakfast Day</a>");
