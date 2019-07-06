@@ -242,23 +242,34 @@ function close_sentence(sentence) {
 }
 
 function colder_or_hotter(temp, compare, which, coldest, hottest) {
+	if (temp === null) { return ""; }
+	if (temp >= hottest[0] && which == "yesterday") {
+		return "It is the hottest ever recorded";
+	}
+	else if (temp <= coldest[0] && which == "yesterday") {
+		return "It is the coldest ever recorded";
+	}
+
 	var word = "";
 	if ( which == "yesterday" && coldest[0] == temp ) { word = "cold"; }
-	else if ( which == "yesterday" &&  hottest[0] == temp ) { word = "cold"; }
+	else if ( which == "yesterday" &&  hottest[0] == temp ) { word = "hott"; }
 	else {
-		if ( compare[0] == null || temp == null ) { return ""; }
-		if ( (compare[0] + compare[3]) <= temp && temp >= (compare[0] - compare[4]) ) {
+		if ( compare[0] == null || temp == null ) { return word; }
+		if ( (compare[0] + compare[3]) <= temp && temp >= (compare[0] - compare[3]) ) {
 			return word;
 		}
-		else if ( temp > (compare[0] + compare[3]) ) {
+		else if ( temp >= (compare[0] + compare[3]) ) {
 			word = "warm";
 		}
-		else {
+		else if ( temp <= (compare[0] - compare[3]) ) {
 			word = "cool";
+		}
+		else {
+			return word;
 		}
 		return "It is " + word + "er than";
 	}
-	return "It is the " + word + "est ever recorded";
+	return "";
 }
 
 function compile_dates() {
@@ -961,7 +972,6 @@ function last_x_days(days, data) {
 	var nowtime = get_UTCDate() / 1000;
 	var start = 86400 * parseInt(nowtime / 86400) - (86400 * days);
 	var end = start + (86400 * days);
-	if ( start == end ) { end = nowtime; }
 	data = get_element(data, 1, start, end);
 	return [ss.mean(data), ss.min(data), ss.max(data), ss.standardDeviation(data)];
 }
