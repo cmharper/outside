@@ -572,7 +572,7 @@ function do_last_precipitate(place, latest, records) {
 	var snowrain = [["snow", 9], ["rain", 8]];
 	var precipitate = [];
 	for (var sn in snowrain) {
-		if ( records[snowrain[sn][1]] != latest[0] && records[snowrain[sn][1]] != NaN ) {
+		if ( records[snowrain[sn][1]] != latest[0] && ! isNaN(records[snowrain[sn][1]]) ) {
 			precipitate.push( snowrain[sn][0] + "ed " + new Date(records[snowrain[sn][1]] * 1000).toRelativeTime({"smartDays": true}) );
 		}
 	}
