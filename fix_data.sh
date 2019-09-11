@@ -40,7 +40,7 @@ for LOCATION in "n" "c"; do
     LONGITUDE=$( echo "${PARTS}" | cut -d, -f4 )
 
     # get weather data points
-    grep -Pv "\d{10}" "/tmp/${LOCATION}.data" | grep -E ".*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?" | grep -vE "^.*?,-99.9" | grep -vE "^.*?,999" | grep -vE "^.*?,65" | uniq | sort -g > "/tmp/${LOCATION}.new"
+    grep -Pv "\d{10}" "/tmp/${LOCATION}.data" | grep -E ".*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?" | grep -vE "^.*?,-99.9" | grep -vE "^.*?,999" | grep -vE "^.*?,65" | grep -vE ",,," | uniq | sort -g > "/tmp/${LOCATION}.new"
 
     # get the temperatures
     PARTS=$( sort -t, -k 2 -g "/tmp/${LOCATION}.new" | cut -d, -f1,2 | grep -vE ",-99.9" | grep -vE ",999" | grep -vE ",65" )
