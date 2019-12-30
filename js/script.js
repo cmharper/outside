@@ -286,6 +286,7 @@ function compile_dates() {
 		"09 Jan": ["><a href=\"https://en.wikipedia.org/wiki/Wind_Cave_National_Park\">Wind Cave National Park</a> founded"],
 		"10 Jan": ["><a href=\"https://en.wikipedia.org/wiki/Pinnacles_National_Park\">Pinnacles National Park</a> founded"],
 		"12 Jan": ["><a href=\"https://en.wikipedia.org/wiki/HAL_9000\">Activation of HAL 9000 (2001: A Space Odyssey)</a>"],
+		"18 Jan": ["><a href=\"https://en.wikipedia.org/wiki/White_Sands_National_Park\">White Sands National Park founded</a>"],
 		"25 Jan": ["<a href=\"https://en.wikipedia.org/wiki/Burns_supper\">Burns Night</a>"],
 		"26 Jan": ["><a href=\"https://en.wikipedia.org/wiki/Rocky_Mountain_National_Park\">Rocky Mountain National Park</a> founded"],
 		"01 Feb": ["><a href=\"https://en.wikipedia.org/wiki/Imbolc\">Imbolc</a>"],
